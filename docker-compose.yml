@@ -1,0 +1,21 @@
+version: '3'
+services:
+  db:
+    image: postgres:15-alpine
+    volumes:
+      - db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=password
+  app:
+    build: .
+    volumes:
+      - .:/myapp
+    ports:
+      - "3000:3000"
+    command: ./bin/dev
+    stdin_open: true
+    tty: true
+    depends_on:
+      - db
+volumes:
+  db:
