@@ -38,5 +38,11 @@ module Myapp
 
     # Don't generate system test files.
     config.generators.system_tests = nil
+
+    config.generators do |g|
+      g.template_engine :slim
+      g.skip_routes true
+      g.helper false
+    end
   end
 end

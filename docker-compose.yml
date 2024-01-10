@@ -10,6 +10,8 @@ services:
     build: .
     volumes:
       - .:/myapp
+      - bundle:/usr/local/bundle
+      - node_modules:/myapp/node_modules
     ports:
       - "3000:3000"
     command: ./bin/dev
@@ -19,3 +21,6 @@ services:
       - db
 volumes:
   db:
+  bundle:
+  node_modules:
+
