@@ -6,6 +6,9 @@ services:
       - db:/var/lib/postgresql/data
     environment:
       - POSTGRES_PASSWORD=password
+    ports:
+      - "5433:5432"
+
   app:
     build: .
     volumes:
@@ -19,8 +22,20 @@ services:
     tty: true
     depends_on:
       - db
+      - mailhog
+
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - "8025:8025"
+    environment:
+      MH_STORAGE: maildir
+      MH_MAILDIR_PATH: /tmp
+    volumes:
+      - mail_data:/tmp
+
 volumes:
   db:
   bundle:
   node_modules:
-
+  mail_data:
