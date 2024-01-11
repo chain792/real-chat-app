@@ -41,8 +41,8 @@ module Myapp
 
     config.generators do |g|
       g.template_engine :slim
-      g.skip_routes true
       g.helper false
+      g.orm :active_record, migration: false
     end
   end
 end

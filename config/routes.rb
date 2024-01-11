@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   authenticated do
-    root 'home#index', as: :authenticated_root
+    root 'rooms#index', as: :authenticated_root
   end
 
   devise_scope :user do
@@ -14,6 +14,8 @@ Rails.application.routes.draw do
     passwords: 'users/passwords',
     unlocks: 'users/unlocks'
   }
+
+  resources :rooms
 
   get 'home' => 'home#index'
 
