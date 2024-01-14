@@ -1,10 +1,13 @@
 p style="color: green" = notice
 
-== render @room
+= @room.name
+
+= turbo_stream_from @room
+#text_messages
+  = render partial: 'messages/message', collection: @messages
+
+div id="message_form_#{@room.id}"
+  = render 'messages/form', message: @message, room: @room
 
 div
-  => link_to "Edit this room", edit_room_path(@room)
-  '|
-  =< link_to "Back to rooms", rooms_path
-
-  = button_to "Destroy this room", @room, method: :delete
+  = link_to "チャット一覧に戻る", rooms_path

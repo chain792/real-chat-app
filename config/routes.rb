@@ -15,7 +15,9 @@ Rails.application.routes.draw do
     unlocks: 'users/unlocks'
   }
 
-  resources :rooms
+  resources :rooms do
+    resources :messages
+  end
 
   get 'home' => 'home#index'
 

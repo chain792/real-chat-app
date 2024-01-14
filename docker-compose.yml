@@ -23,6 +23,7 @@ services:
     depends_on:
       - db
       - mailhog
+      - redis
 
   mailhog:
     image: mailhog/mailhog
@@ -34,8 +35,16 @@ services:
     volumes:
       - mail_data:/tmp
 
+  redis:
+    image: "redis:latest"
+    ports:
+      - "6378:6379"
+    volumes:
+      - redis_data:/data
+
 volumes:
   db:
   bundle:
   node_modules:
   mail_data:
+  redis_data:

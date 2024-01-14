@@ -8,6 +8,8 @@ class RoomsController < ApplicationController
 
   # GET /rooms/1
   def show
+    @message = Message.new
+    @messages = @room.messages
   end
 
   # GET /rooms/new
@@ -24,7 +26,7 @@ class RoomsController < ApplicationController
     @room = Room.new(room_params)
 
     if @room.save
-      redirect_to @room, notice: "Room was successfully created."
+      redirect_to rooms_path, notice: "チャットを作成しました"
     else
       render :new, status: :unprocessable_entity
     end
