@@ -20,10 +20,13 @@ services:
     command: ./bin/dev
     stdin_open: true
     tty: true
+    environment:
+      OPENSEARCH_URL: http://opensearch-node:9200
     depends_on:
       - db
       - mailhog
       - redis
+      - opensearch
 
   mailhog:
     image: mailhog/mailhog
@@ -42,9 +45,46 @@ services:
     volumes:
       - redis_data:/data
 
+  opensearch-node:
+    build:
+      context: .
+      dockerfile: opensearch/Dockerfile
+    container_name: opensearch-node
+    environment:
+      - cluster.name=opensearch-cluster # Name the cluster
+      - node.name=opensearch-node # Name the node that will run in this container
+      - discovery.type=single-node
+      - bootstrap.memory_lock=true # Disable JVM heap memory swapping
+      - "OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m" # Set min and max JVM heap sizes to at least 50% of system RAM
+      - "DISABLE_INSTALL_DEMO_CONFIG=true"
+      - "DISABLE_SECURITY_PLUGIN=true"
+    ulimits:
+      memlock:
+        soft: -1 # Set memlock to unlimited (no soft or hard limit)
+        hard: -1
+      nofile:
+        soft: 65536 # Maximum number of open files for the opensearch user - set to at least 65536
+        hard: 65536
+    volumes:
+      - opensearch_data:/usr/share/opensearch/data
+    ports:
+      - 9200:9200
+      - 9600:9600
+
+  opensearch-dashboards:
+    image: opensearchproject/opensearch-dashboards:2.11.1
+    environment:
+      - 'OPENSEARCH_HOSTS=["http://opensearch-node:9200"]'
+      - "DISABLE_SECURITY_DASHBOARDS_PLUGIN=true"
+    ports:
+      - 5601:5601
+    depends_on:
+      - opensearch-node
+
 volumes:
   db:
   bundle:
   node_modules:
   mail_data:
   redis_data:
+  opensearch_data:

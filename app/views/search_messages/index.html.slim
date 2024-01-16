@@ -1,0 +1,6 @@
+h1 SearchMessages#index
+p Find me in app/views/search_messages/index.html.slim
+= render 'form', search_messages_form: @search_messages_form
+
+#text_messages
+  = render partial: 'messages/message', collection: @messages

@@ -19,6 +19,8 @@ Rails.application.routes.draw do
     resources :messages
   end
 
+  resources :search_messages, only: %i[index]
+
   get 'home' => 'home#index'
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

@@ -4,6 +4,7 @@ class RoomsController < ApplicationController
   # GET /rooms
   def index
     @rooms = Room.all
+    @search_messages_form = SearchMessagesForm.new
   end
 
   # GET /rooms/1
